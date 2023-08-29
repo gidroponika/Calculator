@@ -1,4 +1,4 @@
-﻿namespace DelegateCalculator
+﻿namespace Calculator
 {
     internal class Program
     {
