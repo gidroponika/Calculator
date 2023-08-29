@@ -1,12 +1,19 @@
 ﻿namespace DelegateCalculator
 {
-    delegate double Calculate(double a, double b);
     internal class Program
     {
+        static void ErrorDivide(object sender, EventArgs e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Division by zero is not possible");
+            Console.ResetColor();
+        }
+
         static void Main()
         {
-            double result = default;
-            Calculate calc = null;
+            
+            Calculator calc = new ();
+            calc.DividedByZero += ErrorDivide;
 
             Console.Write("Enter first number ");
             double q = Convert.ToDouble(Console.ReadLine());
@@ -17,27 +24,27 @@
             Console.Write("Enter second number ");
             double w = Convert.ToDouble(Console.ReadLine());
 
-
+            double? result=null;
             switch (operation)
             {
                 case '+':
-                    calc = new Calculate(Calculator.Add);
+                    result=calc.Add(q,w);
                     break;
                 case '*':
-                    calc = new Calculate(Calculator.Mul);
+                    result = calc.Mul(q,w);
                     break;
                 case '-':
-                    calc = new Calculate(Calculator.Sub);
+                    result = calc.Sub(q,w);
                     break;
                 case '/':
-                    calc = new Calculate(Calculator.Div);
+                    result = calc.Div(q,w);
                     break;
                 default:
                     Console.WriteLine("Invalid operation");
                     break;
             }
 
-            result = calc.Invoke(q, w);
+            
             Console.WriteLine(result);
         }
     }

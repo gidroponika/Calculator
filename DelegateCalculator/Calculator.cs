@@ -7,25 +7,33 @@ using System.Threading.Tasks;
 
 namespace DelegateCalculator
 {
-    internal static class Calculator
+    internal class Calculator
     {
-        public static double Add(double a, double b) => a + b;
-
-        public static double Sub(double a, double b) => a - b;
-
-        public static double Mul(double a, double b) => a * b;
-
-        public static double Div(double a, double b)
+        public event EventHandler DividedByZero = null;
+        public void InvokeEvent()
         {
+            DividedByZero?.Invoke(this, EventArgs.Empty);
+        }
+
+        public double Add(double a, double b) => a + b;
+
+        public double Sub(double a, double b) => a - b;
+
+        public double Mul(double a, double b) => a * b;
+
+        public double? Div(double a, double b)
+        {
+            double? result;
             if (b != 0)
             {
-                return a / b;
+                result = a / b;
             }
             else
             {
-                Console.WriteLine("division by zero is not possible");
-                return 0;
+                result = null;
+                InvokeEvent();
             }
+            return result;
         }
     }
 }
